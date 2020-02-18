@@ -18,14 +18,18 @@ const Chat = ({ location }) => {
     setRoom(room);
     setLoading(false);
     socket = io(endPoint)
-  },[endPoint,location.search])
+
+    socket.emit('join', { name, room })
+    socket.emit('tes doang', ['tes 1','tes 2',' tes 3'])
+
+  }, [endPoint, location.search])
 
   return (
     <>
       {isLoading ?
         <p>isLoading... </p> :
         <div>
-          from chats {name} room {room}
+          from chats {name} room {room} <br />
         </div>
       }
     </>
