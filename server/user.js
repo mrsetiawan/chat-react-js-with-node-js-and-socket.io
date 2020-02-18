@@ -10,11 +10,11 @@ const addUser = ({ id, name, room }) => {
     return { error: 'user is existing' }
   }
 
-  const newUser = { id, name, room };
+  const user = { id, name, room };
 
-  users.push(newUser);
+  users.push(user);
 
-  return { newUser };
+  return { user };
 
 }
 
