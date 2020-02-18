@@ -6,12 +6,17 @@ const app = express();
 const server = http.createServer(app);
 const io = socketio(server);
 const router = require('./router');
+const {
+  addUser,
+  removeUser,
+  getUser,
+  getUserInRoom
+} = require('./user.js');
 
 io.on('connection', (socket) => {
-  console.log('socket connected');
-
-  socket.on('join', ({name,room}) => {
-    console.log(`nama : ${name} dan room :${room}`)
+  socket.on('join', ({ name,room }, callback) => {
+    const { error,user } = addUser({ id:socket.id,name,room });
+    console.log(error)
   })
 
   socket.on('tes doang', (arr) => {
@@ -19,7 +24,7 @@ io.on('connection', (socket) => {
   })
 
   socket.on('disconnect', (socket) => {
-    console.log('user left');
+    console.log(socket);
   })
 })
 
