@@ -15,12 +15,16 @@ const {
 
 io.on('connection', (socket) => {
   socket.on('join', ({ name,room }, callback) => {
-    const { error,user } = addUser({ id:socket.id, name, room });
+    const { error,user } = addUser({ id: socket.id, name, room });
 
     if(error) return callback(error);
 
-    socket.emit('message', {user: 'admin', text: `${user.name} ,welcome tho the room ${user.room}`});
-    socket.broadcast.to(user.room).emit('message', {user: 'admin', text: `${user.name} has join in room`});
+    // socket.emit('message', {user: 'admin', text: `${user.name} ,welcome tho the room ${user.room}`});
+    // socket.broadcast.to(user.room).emit('message', {user: 'admin', text: `${user.name} has join in room`});
+
+    socket.emit('message', { user: 'admin', text: `${user.name}, welcome to room ${user.room}.`});
+    socket.broadcast.to(user.room).emit('message', { user: 'admin', text: `${user.name} has joined!` });
+    
     socket.join(user.room);
 
     callback();
@@ -33,7 +37,7 @@ io.on('connection', (socket) => {
 
   socket.on('sendMessage', (message, callback) => {
     const user = getUser(socket.id)
-    console.log('tes')
+    console.log(callback)
     io.to(user.room).emit('message', {user: user.name, text: message})
 
     callback();

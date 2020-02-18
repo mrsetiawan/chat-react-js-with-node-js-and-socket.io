@@ -11,7 +11,6 @@ const Chat = ({ location }) => {
   const [room, setRoom] = useState('');
   const [message, setMessage] = useState('');
   const [messages, setMessages] = useState([]);
-  const [isLoading, setLoading] = useState(true);
   const endPoint = 'localhost:5000';
 
   useEffect(() => {
@@ -19,14 +18,13 @@ const Chat = ({ location }) => {
     const { name, room } = queryString.parse(location.search);
     setName(name);
     setRoom(room);
-    setLoading(false);
     socket = io(endPoint)
 
     socket.emit('join', { name, room }, () => {
 
     })
 
-    socket.emit('tes doang', ['tes 1','tes 2',' tes 3'])
+    socket.emit('tes doang', ['tes 1', 'tes 2', ' tes 3'])
 
     return () => {
       socket.emit('disconnect');
@@ -36,20 +34,33 @@ const Chat = ({ location }) => {
   }, [endPoint, location.search])
 
   useEffect(() => {
-    socket.on('message', (message) => {
-      setMessages([...messages,message])
-    })
-  }, [messages])
 
+    socket.on('message', (message) => {
+      setMessages([...messages, message])
+    })
+
+  }, [messages]);
+
+  const sendMessage = (event) => {
+    event.preventDefault(); 
+
+    if(message) {
+      socket.emit('sendMessage', message, () => setMessage(''))
+    }
+  }
+
+  console.log(`ini message ${message} dan ini messages ${messages}`)
   return (
-    <>
-      {isLoading ?
-        <p>isLoading... </p> :
-        <div>
-          from chats {name} room {room} <br />
-        </div>
-      }
-    </>
+    <div className='outerContainer'>
+      <div className='container'>
+        <input
+          type="text"
+          value={message}
+          onChange={(e) => setMessage(e.target.value)}
+          onKeyPress={event => event.key === 'Enter' ? sendMessage(event) : null }
+        />
+      </div>
+    </div>
   )
 }
 
