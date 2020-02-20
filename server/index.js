@@ -15,29 +15,22 @@ const {
 
 io.on('connection', (socket) => {
   socket.on('join', ({ name,room }, callback) => {
+    // console.log(`nama ${name} dan ${room} dan ${data}`);
     const { error,user } = addUser({ id: socket.id, name, room });
 
     if(error) return callback(error);
 
-    // socket.emit('message', {user: 'admin', text: `${user.name} ,welcome tho the room ${user.room}`});
-    // socket.broadcast.to(user.room).emit('message', {user: 'admin', text: `${user.name} has join in room`});
-
-    socket.emit('message', { user: 'admin', text: `${user.name}, welcome to room ${user.room}.`});
-    socket.broadcast.to(user.room).emit('message', { user: 'admin', text: `${user.name} has joined!` });
-    
+    socket.emit('message', {user: 'admin', text: `${name} ,welcome tho the room ${room}`});
+    socket.broadcast.to(user.room).emit('message', {user: 'admin', text: `${user.name} has join in room ${user.room}`});
+    // console.log(user)
     socket.join(user.room);
 
     callback();
   });
 
-  // socket.on('tes doang', (data) => {
-  //   let data2 = data
-  //   console.log(data2)
-  // })
-
   socket.on('sendMessage', (message, callback) => {
-    const user = getUser(socket.id)
-    console.log(callback)
+    console.log(message)
+    const { user } = getUser(socket.id)
     io.to(user.room).emit('message', {user: user.name, text: message})
 
     callback();

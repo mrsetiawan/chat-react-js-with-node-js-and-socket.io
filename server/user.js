@@ -14,6 +14,8 @@ const addUser = ({ id, name, room }) => {
 
   users.push(user);
 
+  // console.log(user)
+
   return { user };
 
 }
@@ -27,7 +29,8 @@ const removeUser = (id) => {
   }
 }
 
-const getUser = (id) => { users.find((user) => user.id === id)}
+const getUser = (id) => users.find((user) => user.id === id)
+
 
 const getUserInRoom = (room) => { users.filter((room) => room.room == room) }
 

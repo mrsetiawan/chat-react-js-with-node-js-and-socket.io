@@ -21,10 +21,9 @@ const Chat = ({ location }) => {
     socket = io(endPoint)
 
     socket.emit('join', { name, room }, () => {
-
+      setName('');
+      setRoom('');
     })
-
-    socket.emit('tes doang', ['tes 1', 'tes 2', ' tes 3'])
 
     return () => {
       socket.emit('disconnect');
@@ -36,6 +35,7 @@ const Chat = ({ location }) => {
   useEffect(() => {
 
     socket.on('message', (message) => {
+      // console.log(message)
       setMessages([...messages, message])
     })
 
@@ -49,7 +49,8 @@ const Chat = ({ location }) => {
     }
   }
 
-  console.log(`ini message ${message} dan ini messages ${messages}`)
+  console.log(message, messages)
+
   return (
     <div className='outerContainer'>
       <div className='container'>
