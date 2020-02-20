@@ -44,7 +44,7 @@ const Chat = ({ location }) => {
   }, [messages]);
 
   const sendMessage = (event) => {
-
+    // console.log(event)
     event.preventDefault(); 
 
     if(message) {
@@ -57,12 +57,6 @@ const Chat = ({ location }) => {
   return (
     <div className='outerContainer'>
       <div className='container'>
-        {/* <input
-          type="text"
-          value={message}
-          onChange={(e) => setMessage(e.target.value)}
-          onKeyPress={event => event.key === 'Enter' ? sendMessage(event) : null }
-        /> */}
         <InfoBar _room={room} />
         <Input 
           _message={message} 
