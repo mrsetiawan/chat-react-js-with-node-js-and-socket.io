@@ -64,7 +64,11 @@ const Chat = ({ location }) => {
           onKeyPress={event => event.key === 'Enter' ? sendMessage(event) : null }
         /> */}
         <InfoBar _room={room} />
-        <Input />
+        <Input 
+          _message={message} 
+          _setMessage={setMessage}  
+          _sendMessage={sendMessage}
+        />
       </div>
     </div>
   )

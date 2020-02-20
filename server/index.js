@@ -15,7 +15,7 @@ const {
 
 io.on('connection', (socket) => {
   socket.on('join', ({ name,room }, callback) => {
-    // console.log(`nama ${name} dan ${room} dan ${data}`);
+
     const { error,user } = addUser({ id: socket.id, name, room });
 
     if(error) return callback(error);
@@ -26,11 +26,11 @@ io.on('connection', (socket) => {
     socket.join(user.room);
 
     callback();
+
   });
 
   socket.on('sendMessage', (message, callback) => {
-    console.log(message)
-    const { user } = getUser(socket.id)
+    const user  = getUser(socket.id)
     io.to(user.room).emit('message', {user: user.name, text: message})
 
     callback();
